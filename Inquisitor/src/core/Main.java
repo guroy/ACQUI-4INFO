@@ -12,14 +12,15 @@ public class Main {
 				System.out.println("Utilisation : ");
 				System.out.println("inquisitor -a articles.txt mots.txt fichier.out");
 			} else {
-				// TODO
+				// TODO : Parser le fichier articles avec les mots discriminants
+				// TODO : Faire l'étude des articles
 			}
 		} else if (args[1].equals("-t")) {
 			if (args.length != 3) {
 				System.out.println("Utilisation : ");
 				System.out.println("inquisitor -t ticket.txt fichier.out");
 			} else {
-				// TODO
+				// TODO : Étude du ticket de caisse
 			}
 		} else {
 			System.out.println("Utilisation : ");
