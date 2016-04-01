@@ -1,0 +1,9 @@
+
+Description package R faisant Apriori
+https://en.wikibooks.org/wiki/Data_Mining_Algorithms_In_R/Frequent_Pattern_Mining/The_Apriori_Algorithm
+
+PDF super classe ! Voir la partie optimisations de l'algo Apriori
+https://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&ved=0ahUKEwjSt4qQu-3LAhWIVxoKHXRtAT4QFggoMAE&url=http%3A%2F%2Fwww.springer.com%2Fcda%2Fcontent%2Fdocument%2Fcda_downloaddocument%2F9783319078205-c1.pdf%3FSGWID%3D0-0-45-1472502-p176782082&usg=AFQjCNH93--cCKMLgR0d4l9A3lLZW5DKiw&cad=rja
+
+Optimisation mémoire d'Apriori
+http://www.irjcs.com/volumes/vol2/iss10/02.OCCS10081.pdf
