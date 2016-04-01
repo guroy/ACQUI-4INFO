@@ -7,3 +7,6 @@ https://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&ved=0ahUKEwjSt4qQ
 
 Optimisation mémoire d'Apriori
 http://www.irjcs.com/volumes/vol2/iss10/02.OCCS10081.pdf
+
+FP-Growth algorithm
+blog.khaledtannir.net/2012/07/lalgorithme-fp-growth-construction-du-fp-tree-23/#.Vv5d-yafE_s
