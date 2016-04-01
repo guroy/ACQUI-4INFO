@@ -25,7 +25,7 @@ public class Parser {
 
 	/*Récupère sur l'entrée standart les mots dans words, puis les articles et analyse la présence de mots dans les articles
 	, le résultat est dans tab et en retour*/
-	public boolean[][] run() {
+	public void run() {
 		Scanner sc = new Scanner(System.in);
 
 		while (sc.hasNextLine()) {
@@ -56,7 +56,6 @@ public class Parser {
 			i++;
 		}
 
-		return tab;
 	}
 
 }
