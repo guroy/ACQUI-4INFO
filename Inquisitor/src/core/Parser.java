@@ -23,6 +23,8 @@ public class Parser {
 		this.tab = tab;
 	}
 
+	/*Récupère sur l'entrée standart les mots dans words, puis les articles et analyse la présence de mots dans les articles
+	, le résultat est dans tab et en retour*/
 	public boolean[][] run() {
 		Scanner sc = new Scanner(System.in);
 
