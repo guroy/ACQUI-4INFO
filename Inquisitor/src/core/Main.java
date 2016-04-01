@@ -5,6 +5,10 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		Parser parser = new Parser();
+		FPGrowth fp = new FPGrowth();
+		
+		
 		// -t = étude du ticket
 		// -a = étude de l'article
 		if (args[0].equals("-a")) {
@@ -14,6 +18,8 @@ public class Main {
 			} else {
 				// TODO : Parser le fichier articles avec les mots discriminants
 				// TODO : Faire l'étude des articles
+				parser.run();
+				fp.process(parser.getWords(), parser.getTab());
 			}
 		} else if (args[1].equals("-t")) {
 			if (args.length != 3) {
