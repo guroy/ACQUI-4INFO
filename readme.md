@@ -2,7 +2,8 @@ ACQUI
 --------
 
 ##### INSA Rennes
-Projet 
+![alt_tag](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Persecution_of_witches.jpg/150px-Persecution_of_witches.jpg)
+Projet Inquisitor
 
 * **Course Title:** ACQUI Acquisition de connaissances
 * **Instructor:** Peggy Cellier
