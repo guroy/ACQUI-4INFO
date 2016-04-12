@@ -1,5 +1,6 @@
 package core;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,28 +29,47 @@ public class Parser {
 	 * analyse la présence de mots dans les articles , le résultat est dans tab
 	 * et en retour
 	 */
-	public void run() {
-		Scanner sc = new Scanner(System.in);
+	public void run(String entry_articles, String entry_words) throws FileNotFoundException {
 
-		while (sc.hasNextLine()) {
-			String s = sc.nextLine();
-			if (!words.contains(s)) {
-				words.add(s);
-			}
-		}
+        // read line by line input words
 
-		ArrayList<String> articles = new ArrayList<String>();
-		while (sc.hasNextLine()) {
+        try{
+            InputStream ips=new FileInputStream(entry_words);
+            InputStreamReader ipsr=new InputStreamReader(ips, "ISO-8859-1");
+            BufferedReader br=new BufferedReader(ipsr);
+            String line;
+            while ((line=br.readLine()) != null){
+                words.add(line);
+            }
+            br.close();
+        }
+        catch (Exception e){
+            System.out.println(e.toString());
+        }
 
-			articles.add(sc.nextLine());
-		}
+        // read line by line input article
+		ArrayList<String> articles = new ArrayList<>();
+        try{
+            InputStream ips=new FileInputStream(entry_articles);
+            InputStreamReader ipsr=new InputStreamReader(ips, "ISO-8859-1");
+            BufferedReader br=new BufferedReader(ipsr);
+            String line;
+            while ((line=br.readLine()) != null){
+                articles.add(line);
+            }
+            br.close();
+        }
+        catch (Exception e){
+            System.out.println(e.toString());
+        }
+
 		tab = new boolean[articles.size()][words.size()];
 
 		int i = 0;
 		for (String article : articles) {
 			int j = 0;
 			for (String word : words) {
-				if (article.contains(word)) {
+				if (article.contains(" "+word+" ")) {
 					tab[i][j] = true;
 				} else {
 					tab[i][j] = false;
@@ -58,6 +78,7 @@ public class Parser {
 			}
 			i++;
 		}
+
 
 	}
 
