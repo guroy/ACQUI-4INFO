@@ -1,6 +1,7 @@
 package core;
 
-import java.io.FileNotFoundException;
+import core.FPGrowth.FPGrowth;
+
 import java.io.IOException;
 
 public class Main {
