@@ -29,24 +29,29 @@ public class Apriori implements ERAAlgorithm {
 			}
 		}
 
-		L(mots, map, array, 1);
+		L(mots, map, array);
 		
 	}
 
 	// current = item de l'étape précédantes, length taille des trucs de l'étape
 	// précédante
-	private void L(List<String> mots, boolean[][] map, ArrayList<ArrayList<String>> current,
-			int length) {
+	private void L(List<String> mots, boolean[][] map, ArrayList<ArrayList<String>> current) {
 
+		//Va stocker les ensembles ajoutés à cette étape
 		ArrayList<ArrayList<String>> next = new ArrayList<ArrayList<String>>();
 
+		//Pour tout les ensembles de l'étape précédante
 		for (int i = 0; i < current.size(); i++) {
 			ArrayList<String> a = current.get(i);
 
+			
+			//On compare à tout les autres ensembles
 			for (int j = i + 1; j < current.size(); j++) {
 				int test = 0;
 				ArrayList<String> b = current.get(j);
 				String toAdd = null;
+				
+				//S'ils ont un seul Element de différence, on stock ce mot dans toAdd
 				for (String s : a) {
 					if (!b.contains(s)) {
 						test++;
@@ -59,19 +64,24 @@ public class Apriori implements ERAAlgorithm {
 					}
 				}
 
+				
+				//S'il y avais un mot de diff
 				if (test == 1) {
 					ArrayList<String> temp = new ArrayList<String>();
+					//on copie a
 					for (String s : a) {
 						temp.add(s);
 					}
 					temp.add(toAdd);
+					//trie par ordre alphabbétique de la copie
 					java.util.Collections.sort(temp);
 
+					//S'il n'existe pas déjà
 					if (!result.containsKey(temp)) {
 						int res = 0;
-						next.add(temp);
 						boolean valide = true;
 
+						//On compte le nombre de fois que ces mots apparaissent ensembles
 						for (int w = 0; w < map.length; w++) {
 							valide = true;
 							for (String s : temp) {
@@ -86,15 +96,21 @@ public class Apriori implements ERAAlgorithm {
 							}
 						}
 
-						result.put(temp, res);
+						//S'ils apparraissent au moins une fois, on les ajoutent
+						if(res > 0){
+							next.add(temp);
+							result.put(temp, res);
+						}
 					}
 				}
 
 			}
 		}
 
-		
-		L(mots, map, next, length++);
+		//S'il y as eu au moins deux ensembles on passe à la suite
+		if(next.size() > 1){
+			L(mots, map, next);
+		}
 
 	}
 
