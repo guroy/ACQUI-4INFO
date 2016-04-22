@@ -9,7 +9,6 @@ public class Apriori implements ERAAlgorithm {
 	private Map<ArrayList<String>, Integer> result = new HashMap<ArrayList<String>, Integer>();
 
 	public void process(List<String> mots, boolean[][] map) {
-
 		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
 
 		int index = 0;
@@ -24,13 +23,14 @@ public class Apriori implements ERAAlgorithm {
 			for (int j = 0; j < map[0].length; j++) {
 				if (map[i][j]) {
 					int value = result.get(array.get(j));
-					result.put(array.get(index), value + 1);
+					result.put(array.get(j), value + 1);
+
 				}
 			}
 		}
 
 		L(mots, map, array);
-		
+		System.out.println(result);
 	}
 
 	// current = item de l'étape précédantes, length taille des trucs de l'étape
@@ -57,10 +57,9 @@ public class Apriori implements ERAAlgorithm {
 						test++;
 						if (test > 1) {
 							break;
+						}else{
+							toAdd = s;
 						}
-
-						toAdd = s;
-
 					}
 				}
 
@@ -69,7 +68,7 @@ public class Apriori implements ERAAlgorithm {
 				if (test == 1) {
 					ArrayList<String> temp = new ArrayList<String>();
 					//on copie a
-					for (String s : a) {
+					for (String s : b) {
 						temp.add(s);
 					}
 					temp.add(toAdd);
@@ -95,11 +94,14 @@ public class Apriori implements ERAAlgorithm {
 								res++;
 							}
 						}
-
-						//S'ils apparraissent au moins une fois, on les ajoutent
+						
+						//S'ils apparraissent au moins une fois et assez fréquent, on les ajoutent
 						if(res > 0){
-							next.add(temp);
-							result.put(temp, res);
+							double support = (((double)res)/map.length)*100;
+							if(support>0.9){
+								next.add(temp);
+								result.put(temp, res);
+							}
 						}
 					}
 				}
