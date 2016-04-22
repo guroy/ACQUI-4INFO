@@ -1,6 +1,6 @@
 package core;
 
-import core.FPGrowth.FPGrowth;
+import core.fpGrowth.FPGrowth;
 
 import java.io.IOException;
 
