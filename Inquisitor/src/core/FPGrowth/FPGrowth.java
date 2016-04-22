@@ -1,12 +1,20 @@
-package core.FPGrowth;
+package core.fpGrowth;
 
 import core.ERAAlgorithm;
+import core.fpGrowth.itemSetUtil.KItemSetFPG;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class FPGrowth implements ERAAlgorithm {
+
+    private int support;
+
+    public FPGrowth(int support){
+        this.support = support;
+    }
+
 
 	/**
 	 * process the calculus of frequent Item-set
@@ -26,13 +34,13 @@ public class FPGrowth implements ERAAlgorithm {
 		int minFrequency = map.length / 100 ;
 
 		// Step 1 : determined frequency
-		for(int i = 0; i < map.length ; i++){
-			for(int j = 0; j < map[i].length; j++){
-				if(map[i][j]){
-					(itemSetValue[j])++;
-				}
-			}
-		}
+        for (boolean[] aMap1 : map) {
+            for (int j = 0; j < aMap1.length; j++) {
+                if (aMap1[j]) {
+                    (itemSetValue[j])++;
+                }
+            }
+        }
 
 
 		// Step 2 : conserved item with support desired
@@ -71,7 +79,11 @@ public class FPGrowth implements ERAAlgorithm {
 		FPTree tree = new FPTree();
 		Node root = tree.getRoot();
         Node current = root;
+
+        // add elements to the tree
+        // for each article
 		for (boolean[] aMap : map) {
+            // for each word
             for (String orderedWord : orderedWords) {
                 if (aMap[headerTable.get(orderedWord).getRight()]) {
                     if (current.containsSon(orderedWord)) {
@@ -91,5 +103,29 @@ public class FPGrowth implements ERAAlgorithm {
             }
             current = root;
 		}
+
+        // Calculus of the frequent item-set
+        frequentItemSet(tree);
 	}
+
+    // method used to get the frequent item-set
+    private void frequentItemSet(FPTree tree){
+
+        Node root = tree.getRoot();
+        boolean noMoreKItemSet = false;
+        int count = 2;
+
+        List<KItemSetFPG> kItemSetFPGList = new ArrayList<>();
+
+        KItemSetFPG old = new KItemSetFPG(count);
+
+        // creation of the 2-ItemSet
+        
+
+        // creation of the k-ItemSet from (k-1)ItemSet
+        while(!noMoreKItemSet){
+
+        }
+
+    }
 }

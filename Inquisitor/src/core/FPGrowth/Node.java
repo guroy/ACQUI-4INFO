@@ -1,4 +1,4 @@
-package core.FPGrowth;
+package core.fpGrowth;
 
 import java.util.ArrayList;
 import java.util.List;
