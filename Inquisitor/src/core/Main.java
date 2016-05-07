@@ -10,7 +10,7 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		Parser parser = new Parser();
-		FPGrowth fp = new FPGrowth();
+		FPGrowth fp = new FPGrowth(0.001);
 		Apriori ap = new Apriori();
 		
 		// -t = étude du ticket
@@ -30,8 +30,8 @@ public class Main {
 				// TODO : Faire l'étude des articles
 				parser.run(args[1], args[2]);
 
-				ap.process(parser.getWords(), parser.getTab());
-				//fp.process(parser.getWords(), parser.getTab());
+				//ap.process(parser.getWords(), parser.getTab());
+				fp.process(parser.getWords(), parser.getTab());
 			}
 		} else if (args[1].equals("-t")) {
 			if (args.length != 3) {

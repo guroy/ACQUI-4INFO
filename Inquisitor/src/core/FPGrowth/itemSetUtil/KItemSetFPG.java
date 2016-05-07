@@ -10,11 +10,20 @@ import java.util.HashMap;
  */
 public class KItemSetFPG {
     private int k;
+
     private ArrayList<Item> kItemSet;
 
     public KItemSetFPG(int k){
         this.k = k;
         kItemSet = new ArrayList<>();
+    }
+
+    public int getK(){
+        return k;
+    }
+
+    public ArrayList<Item> getkItemSet() {
+        return kItemSet;
     }
 
     public void addItem(Item item){

@@ -1,7 +1,7 @@
 package core.fpGrowth;
 
 /**
- * Class used as an util for FPGrowth
+ * Class used as an util for fpGrowth
 */
 
 public class Pair<L,R> {
