@@ -43,6 +43,7 @@ public class Apriori implements ERAAlgorithm {
 		
 		System.out.println("fin");
 		
+		//this.writeOut();
 		
 		
 	}
@@ -134,6 +135,7 @@ public class Apriori implements ERAAlgorithm {
 
 	    // create your filewriter and bufferedreader
 	    try {
+			fstream = new FileWriter("C:/Users/User/Desktop/result.txt");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
