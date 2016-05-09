@@ -1,4 +1,4 @@
-package core.fpGrowth.itemSetUtil;
+package core.FPGrowth.itemSetUtil;
 
 
 import java.util.ArrayList;

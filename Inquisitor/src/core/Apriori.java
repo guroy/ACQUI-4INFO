@@ -4,116 +4,114 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class Apriori implements ERAAlgorithm {
 	private Map<ArrayList<String>, Integer> result = new HashMap<ArrayList<String>, Integer>();
 
 	public void process(List<String> mots, boolean[][] map) {
-		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+		Map<ArrayList<String>, ArrayList<Integer>> next = new HashMap<ArrayList<String>,  ArrayList<Integer>>();
 
-		int index = 0;
+		int index =0;
 		for (String mot : mots) {
-			array.add(new ArrayList<String>());
-			array.get(index).add(mot);
-			result.put(array.get(index), 0);
+			ArrayList<String> nextMots = new ArrayList<String>();
+			ArrayList<Integer> nextLines = new ArrayList<Integer>();
+			nextMots.add(mot);
+			int count = 0;
+			
+			//on compte combien de fois apparais le mot et m�morise o�
+			for (int i = 0; i < map.length; i++) {
+				if (map[i][index]) {
+					count++;
+					nextLines.add(i);
+				}
+			}
+			
+			//on stock le 1-itemset
+			result.put(nextMots, count);
+			next.put(nextMots, nextLines);
 			index++;
 		}
 
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[0].length; j++) {
-				if (map[i][j]) {
-					int value = result.get(array.get(j));
-					result.put(array.get(j), value + 1);
+		
 
-				}
-			}
-		}
-
-		L(mots, map, array);
+		L(mots, map, next);
 		System.out.println(result);
 	}
 
 	// current = item de l'étape précédantes, length taille des trucs de l'étape
 	// précédante
-	private void L(List<String> mots, boolean[][] map, ArrayList<ArrayList<String>> current) {
+	private void L(List<String> mots, boolean[][] map, Map<ArrayList<String>, ArrayList<Integer>> current) {
 
 		//Va stocker les ensembles ajoutés à cette étape
-		ArrayList<ArrayList<String>> next = new ArrayList<ArrayList<String>>();
+		Map<ArrayList<String>, ArrayList<Integer>> next = new HashMap<ArrayList<String>,  ArrayList<Integer>>();
 
+		//On r�cup�re toutes les clefs pour it�r� dessus
+		List<ArrayList<String>> keys = new ArrayList<ArrayList<String>>(current.keySet());
+
+			
 		//Pour tout les ensembles de l'étape précédante
-		for (int i = 0; i < current.size(); i++) {
-			ArrayList<String> a = current.get(i);
+		for (int i = 0; i < keys.size(); i++) {
+			ArrayList<String> a = keys.get(i);
 
 			
 			//On compare à tout les autres ensembles
-			for (int j = i + 1; j < current.size(); j++) {
-				int test = 0;
-				ArrayList<String> b = current.get(j);
-				String toAdd = null;
+			for (int j = i + 1; j < keys.size(); j++) {
+				ArrayList<String> b = keys.get(j);
 				
-				//S'ils ont un seul Element de différence, on stock ce mot dans toAdd
+				ArrayList<String> temp = new ArrayList<String>();
+
 				for (String s : a) {
-					if (!b.contains(s)) {
-						test++;
-						if (test > 1) {
-							break;
-						}else{
-							toAdd = s;
-						}
-					}
+					temp.add(s);
 				}
+				temp.removeAll(b);
+				if(temp.size()==1){
+					temp.addAll(b);
+				}				
+				java.util.Collections.sort(temp);
+				if (!result.containsKey(temp)) {
+					int res = 0;
 
 				
-				//S'il y avais un mot de diff
-				if (test == 1) {
-					ArrayList<String> temp = new ArrayList<String>();
-					//on copie a
-					for (String s : b) {
-						temp.add(s);
-					}
-					temp.add(toAdd);
-					//trie par ordre alphabbétique de la copie
-					java.util.Collections.sort(temp);
+					//Intersection des lignes o�les deux item-set de d�parts apparaissent ensembles
+					ArrayList<Integer> nextLines = intersection(current.get(a),current.get(b));
 
-					//S'il n'existe pas déjà
-					if (!result.containsKey(temp)) {
-						int res = 0;
-						boolean valide = true;
-
-						//On compte le nombre de fois que ces mots apparaissent ensembles
-						for (int w = 0; w < map.length; w++) {
-							valide = true;
-							for (String s : temp) {
-								int index = mots.indexOf(s);
-								valide = map[w][index];
-								if (!valide) {
-									break;
-								}
-							}
-							if (valide) {
-								res++;
-							}
-						}
-						
-						//S'ils apparraissent au moins une fois et assez fréquent, on les ajoutent
-						if(res > 0){
-							double support = (((double)res)/map.length)*100;
-							if(support>0.9){
-								next.add(temp);
-								result.put(temp, res);
-							}
+					
+					res = nextLines.size();
+					
+					//S'ils apparraissent au moins une fois et assez fréquent, on les ajoutent
+					if(res > 0){
+						double support = (((double)res)/map.length)*100;
+						if(support>0.9){
+							next.put(temp,nextLines);
+							result.put(temp, res);
+					
+							
 						}
 					}
 				}
-
 			}
-		}
 
+		}
+		
 		//S'il y as eu au moins deux ensembles on passe à la suite
 		if(next.size() > 1){
 			L(mots, map, next);
 		}
 
 	}
+	
+    public static ArrayList<Integer> intersection(ArrayList<Integer> list1, ArrayList<Integer> list2) {
+    	ArrayList<Integer> list = new ArrayList<Integer>();
+
+        for (Integer t : list1) {
+            if(list2.contains(t)) {
+                list.add(t);
+            }
+        }
+
+        return list;
+    }
 
 }
