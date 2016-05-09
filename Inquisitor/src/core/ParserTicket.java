@@ -99,22 +99,21 @@ public class ParserTicket {
 		}
 
 		// CREATION DE tab
-		int nbEntry = body.length;
-		int nbParam = words.length;
+		int nbEntry = body.size();
+		int nbParam = words.size();
 		boolean[][] tabRes = new boolean[nbEntry][nbParam];
 		
 		// REMPLISSAGE DE tab
 		
 		for (int i=0; i<nbEntry;i++){
 			//Colonne 2 : prix [0 - 3]
-			double prix = Double.parseDouble(body[1]);
+			double prix = Double.parseDouble((body.get(i))[1]);
+
 			if(prix <= prixFirstLimit){
 				tabRes[i][0] = true;
-			}else
-			if{prix <= prixSecondLimit)
+			}else if(prix <= prixSecondLimit){
 				tabRes[i][1] = true;
-			}else
-			if{prix <= prixThirdLimit)
+			}else if(prix <= prixThirdLimit){
 				tabRes[i][2] = true;
 			}else{
 				tabRes[i][3] = true;
@@ -122,52 +121,52 @@ public class ParserTicket {
 			
 			
 			//Colonne 3 : pmethod [4 - 6]
-			if(body[2]=="CHEQUE"){
+			if((body.get(i))[2]=="CHEQUE"){
 				tabRes[i][4] = true;
-			}else if(body[2]=="CASH"){
+			}else if((body.get(i))[2]=="CASH"){
 				tabRes[i][5] = true;
-			}else if(body[2]=="CARD"){
+			}else if((body.get(i))[2]=="CARD"){
 				tabRes[i][6] = true;
 			}
 			
 			//Colonne 4 : sex [7 - 8]
-			if(body[3]=="M"){
+			if((body.get(i))[3]=="M"){
 				tabRes[i][7] = true;
-			}else if(body[3]=="F"){
+			}else if((body.get(i))[3]=="F"){
 				tabRes[i][8] = true;
 			}
 			
 			//Colonne 5 : proprietaire [9 - 10]
-			if(body[4]=="YES"){
+			if((body.get(i))[4]=="YES"){
 				tabRes[i][9] = true;
 			}else 
-			if(body[4]=="NO"){
+			if((body.get(i))[4]=="NO"){
 				tabRes[i][10] = true;
 			}
 			 
 			//Colonne 6 : revenus [11 - 14]
-			double rev = Double.parseDouble(body[5]);
+			double rev = Double.parseDouble((body.get(i))[5]);
 			if(rev <= revFirstLimit){
 				tabRes[i][11] = true;
 			}else
-			if{rev <= revSecondLimit)
+			if(rev <= revSecondLimit){
 				tabRes[i][12] = true;
 			}else
-			if{rev <= revThirdLimit)
+			if(rev <= revThirdLimit){
 				tabRes[i][13] = true;
 			}else{
 				tabRes[i][14] = true;
 			}
 			
 			//Colonne 7 : age [15 - 18]
-			double age = Double.parseDouble(body[6])
+			double age = Double.parseDouble((body.get(i))[6]);
 			if(age < 19){
 				tabRes[i][15] = true;
 			}else
-			if{age < 26)
+			if(age < 26){
 				tabRes[i][16] = true;
 			}else
-			if{age < 41)
+			if(age < 41){
 				tabRes[i][17] = true;
 			}else{
 				tabRes[i][18] = true;
@@ -175,7 +174,7 @@ public class ParserTicket {
 			
 			//Colonnes produits
 			for (int j=7; j<entete.length ; j++){
-				if(body[j]=="T"){
+				if((body.get(i))[j]=="T"){
 					tabRes[i][j+11]=true;
 				}
 			}
