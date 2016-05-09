@@ -1,11 +1,14 @@
 package core;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public class Apriori implements ERAAlgorithm {
 	private Map<ArrayList<String>, Integer> result = new HashMap<ArrayList<String>, Integer>();
@@ -37,7 +40,11 @@ public class Apriori implements ERAAlgorithm {
 		
 
 		L(mots, map, next);
-		System.out.println(result);
+		
+		System.out.println("fin");
+		
+		
+		
 	}
 
 	// current = item de l'étape précédantes, length taille des trucs de l'étape
@@ -91,12 +98,16 @@ public class Apriori implements ERAAlgorithm {
 						}
 					}
 				}
+				
+				
+				
 			}
 
 		}
 		
 		//S'il y as eu au moins deux ensembles on passe à la suite
 		if(next.size() > 1){
+			System.out.println(next.size());
 			L(mots, map, next);
 		}
 
@@ -113,5 +124,51 @@ public class Apriori implements ERAAlgorithm {
 
         return list;
     }
+    
+    public  void writeOut() {
+
+		
+		
+	    FileWriter fstream = null;
+	    BufferedWriter out;
+
+	    // create your filewriter and bufferedreader
+	    try {
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    out = new BufferedWriter(fstream);
+
+
+	    // create your iterator for your map
+	    Iterator<Entry<ArrayList<String>, Integer>> it = result.entrySet().iterator();
+
+	    // then use the iterator to loop through the map, stopping when we reach the
+	    // last record in the map or when we have printed enough records
+	    while (it.hasNext()) {
+
+	        // the key/value pair is stored here in pairs
+	        Entry<ArrayList<String>, Integer> pairs = it.next();
+	        // since you only want the value, we only care about pairs.getValue(), which is written to out
+	        try {
+				out.write(pairs.getKey() + " = " +pairs.getValue() + "\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	    }
+	    // lastly, close the file and end
+	    try {
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+    }
+    
+    
 
 }
