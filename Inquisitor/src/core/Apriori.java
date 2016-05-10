@@ -1,119 +1,211 @@
 package core;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Apriori implements ERAAlgorithm {
 	private Map<ArrayList<String>, Integer> result = new HashMap<ArrayList<String>, Integer>();
-
+	private Map<Map<ArrayList<String>,String>, Double> associationRules = new HashMap<Map<ArrayList<String>,String>, Double>();
+	private int nbArticle;
+	
 	public void process(List<String> mots, boolean[][] map) {
-		ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
-
-		int index = 0;
+		Map<ArrayList<String>, ArrayList<Integer>> next = new HashMap<ArrayList<String>,  ArrayList<Integer>>();
+		
+		nbArticle = map.length;
+		
+		int index =0;
 		for (String mot : mots) {
-			array.add(new ArrayList<String>());
-			array.get(index).add(mot);
-			result.put(array.get(index), 0);
+			ArrayList<String> nextMots = new ArrayList<String>();
+			ArrayList<Integer> nextLines = new ArrayList<Integer>();
+			nextMots.add(mot);
+			int count = 0;
+			
+			//on compte combien de fois apparais le mot et mémorise où
+			for (int i = 0; i < map.length; i++) {
+				if (map[i][index]) {
+					count++;
+					nextLines.add(i);
+				}
+			}
+			
+			//on stock le 1-itemset
+			result.put(nextMots, count);
+			next.put(nextMots, nextLines);
 			index++;
 		}
 
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[0].length; j++) {
-				if (map[i][j]) {
-					int value = result.get(array.get(j));
-					result.put(array.get(j), value + 1);
+		
 
-				}
-			}
-		}
-
-		L(mots, map, array);
-		System.out.println(result);
+		L(mots, map, next);
+		
+		System.out.println("fin");
+		
+		this.writeOut();
+		
+		
 	}
 
 	// current = item de l'Ã©tape prÃ©cÃ©dantes, length taille des trucs de l'Ã©tape
 	// prÃ©cÃ©dante
-	private void L(List<String> mots, boolean[][] map, ArrayList<ArrayList<String>> current) {
+	private void L(List<String> mots, boolean[][] map, Map<ArrayList<String>, ArrayList<Integer>> current) {
 
 		//Va stocker les ensembles ajoutÃ©s Ã  cette Ã©tape
-		ArrayList<ArrayList<String>> next = new ArrayList<ArrayList<String>>();
+		Map<ArrayList<String>, ArrayList<Integer>> next = new HashMap<ArrayList<String>,  ArrayList<Integer>>();
 
+		//On récupère toutes les clefs pour itéré dessus
+		List<ArrayList<String>> keys = new ArrayList<ArrayList<String>>(current.keySet());
+
+			
 		//Pour tout les ensembles de l'Ã©tape prÃ©cÃ©dante
-		for (int i = 0; i < current.size(); i++) {
-			ArrayList<String> a = current.get(i);
+		for (int i = 0; i < keys.size(); i++) {
+			ArrayList<String> a = keys.get(i);
 
 			
 			//On compare Ã  tout les autres ensembles
-			for (int j = i + 1; j < current.size(); j++) {
-				int test = 0;
-				ArrayList<String> b = current.get(j);
-				String toAdd = null;
+			for (int j = i + 1; j < keys.size(); j++) {
+				String add1="";
+				String add2="";
+		
+				ArrayList<String> b = keys.get(j);
 				
-				//S'ils ont un seul Element de diffÃ©rence, on stock ce mot dans toAdd
-				for (String s : a) {
-					if (!b.contains(s)) {
-						test++;
-						if (test > 1) {
-							break;
-						}else{
-							toAdd = s;
-						}
-					}
-				}
+				ArrayList<String> temp = new ArrayList<String>();
 
+				temp.addAll(a);				
+				temp.removeAll(b);
 				
-				//S'il y avais un mot de diff
-				if (test == 1) {
-					ArrayList<String> temp = new ArrayList<String>();
-					//on copie a
-					for (String s : b) {
-						temp.add(s);
-					}
-					temp.add(toAdd);
-					//trie par ordre alphabbÃ©tique de la copie
-					java.util.Collections.sort(temp);
-
-					//S'il n'existe pas dÃ©jÃ 
+				//on récupère les mots pour les règles d'inférences
+				if(temp.size()==1){
+					add1=temp.get(0);
+					temp.addAll(b);				
+					temp.removeAll(a);
+					add2=temp.get(0);
+					temp.addAll(a);
+				}				
+				java.util.Collections.sort(temp);
+				
+				
+				int res = 0;	
+				//Intersection des lignes oùles deux item-set de départs apparaissent ensembles
+				ArrayList<Integer> nextLines = intersection(current.get(a),current.get(b));
+			
+				res = nextLines.size();
+				
+				//S'ils apparraissent  assez fréquament, on les ajoutent
+				double support = (((double)res)/nbArticle)*100;
+				if(support>0.9){
 					if (!result.containsKey(temp)) {
-						int res = 0;
-						boolean valide = true;
-
-						//On compte le nombre de fois que ces mots apparaissent ensembles
-						for (int w = 0; w < map.length; w++) {
-							valide = true;
-							for (String s : temp) {
-								int index = mots.indexOf(s);
-								valide = map[w][index];
-								if (!valide) {
-									break;
-								}
-							}
-							if (valide) {
-								res++;
-							}
-						}
-						
-						//S'ils apparraissent au moins une fois et assez frÃ©quent, on les ajoutent
-						if(res > 0){
-							double support = (((double)res)/map.length)*100;
-							if(support>0.9){
-								next.add(temp);
-								result.put(temp, res);
-							}
-						}
+						next.put(temp,nextLines);
+						result.put(temp, res);
 					}
+					
+					double oldSupport1 = (((double)current.get(b).size())/nbArticle)*100;
+					double oldSupport2 = (((double)current.get(a).size())/nbArticle)*100;
+		
+					Map<ArrayList<String>, String> rules1 = new HashMap<ArrayList<String>,  String>();
+					Map<ArrayList<String>, String> rules2 = new HashMap<ArrayList<String>,  String>();
+
+					rules1.put(b, add1);
+					rules2.put(a, add2);
+					associationRules.put(rules1, support/oldSupport1);
+					associationRules.put(rules2, support/oldSupport2);
+
 				}
+				
 
 			}
-		}
 
+		}
+		
 		//S'il y as eu au moins deux ensembles on passe Ã  la suite
 		if(next.size() > 1){
+			System.out.println(next.size());
 			L(mots, map, next);
 		}
 
 	}
+	
+    public static ArrayList<Integer> intersection(ArrayList<Integer> list1, ArrayList<Integer> list2) {
+    	ArrayList<Integer> list = new ArrayList<Integer>();
+
+        for (Integer t : list1) {
+            if(list2.contains(t)) {
+                list.add(t);
+            }
+        }
+
+        return list;
+    }
+    
+    public  void writeOut() {
+
+		
+		
+	    FileWriter fstream = null;
+	    BufferedWriter out;
+
+	    // create your filewriter and bufferedreader
+	    try {
+			fstream = new FileWriter("C:/Users/User/Desktop/result.txt");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    out = new BufferedWriter(fstream);
+
+
+	    // create your iterator for your map
+	    Iterator<Entry<ArrayList<String>, Integer>> it = result.entrySet().iterator();
+
+	    // then use the iterator to loop through the map, stopping when we reach the
+	    // last record in the map or when we have printed enough records
+	    while (it.hasNext()) {
+
+	        // the key/value pair is stored here in pairs
+	        Entry<ArrayList<String>, Integer> pairs = it.next();
+	        // since you only want the value, we only care about pairs.getValue(), which is written to out
+	        try {
+				out.write(pairs.getKey() + " = " +pairs.getValue() + "\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	    }
+	    
+	    
+	    Iterator<Entry<Map<ArrayList<String>, String>, Double>> it2 = associationRules.entrySet().iterator();
+	    
+	    while (it2.hasNext()) {
+
+	        // the key/value pair is stored here in pairs
+	        Entry<Map<ArrayList<String>, String>, Double> pairs = it2.next();
+	        // since you only want the value, we only care about pairs.getValue(), which is written to out
+	        try {
+				out.write(pairs.getKey() + "|| Confidence = " +pairs.getValue() + "\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	    }
+	    
+	    // lastly, close the file and end
+	    try {
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+    }
+    
+    
 
 }

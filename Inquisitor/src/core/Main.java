@@ -1,8 +1,8 @@
 package core;
 
-import core.fpGrowth.FPGrowth;
-
 import java.io.IOException;
+
+import core.FPGrowth.FPGrowth;
 
 public class Main {
 
@@ -30,8 +30,8 @@ public class Main {
 				// TODO : Faire l'étude des articles
 				parser.run(args[1], args[2]);
 
-				//ap.process(parser.getWords(), parser.getTab());
-				fp.process(parser.getWords(), parser.getTab());
+				ap.process(parser.getWords(), parser.getTab());
+				//fp.process(parser.getWords(), parser.getTab());
 			}
 		} else if (args[1].equals("-t")) {
 			if (args.length != 3) {

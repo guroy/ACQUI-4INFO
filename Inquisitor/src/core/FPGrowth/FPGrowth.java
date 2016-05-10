@@ -1,10 +1,13 @@
-package core.fpGrowth;
+package core.FPGrowth;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import core.ERAAlgorithm;
-import core.fpGrowth.itemSetUtil.Item;
-import core.fpGrowth.itemSetUtil.KItemSetFPG;
-
-import java.util.*;
+import core.FPGrowth.itemSetUtil.Item;
+import core.FPGrowth.itemSetUtil.KItemSetFPG;
 
 public class FPGrowth implements ERAAlgorithm {
 
