@@ -10,7 +10,7 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		Parser parser = new Parser();
-		FPGrowth fp = new FPGrowth(0.001);
+		FPGrowth fp = new FPGrowth(0.05);
 		Apriori ap = new Apriori();
 		
 		// -t = étude du ticket

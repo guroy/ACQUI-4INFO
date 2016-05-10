@@ -221,9 +221,9 @@ public class FPGrowth implements ERAAlgorithm {
             string += kItemSetFPG.getK()+"-item-set : ";
             for (Item item : kItemSetFPG.getkItemSet()){
                 for(String it : item.getItemSet()){
-                    string += it+", ";
+                    string += it+" , ";
                 }
-                string += " ; ";
+                string += item.getNbOccur()+" ; ";
             }
             System.out.println(string);
         }

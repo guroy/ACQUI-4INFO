@@ -12,6 +12,11 @@ public class Item {
     }
 
     private ArrayList<String> itemSet;
+
+    public int getNbOccur() {
+        return nbOccur;
+    }
+
     private int nbOccur;
 
     public Item(ArrayList<String> itemSet, int first){
