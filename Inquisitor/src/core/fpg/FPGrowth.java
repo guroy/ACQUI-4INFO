@@ -184,16 +184,15 @@ public class FPGrowth implements ERAAlgorithm {
                     for (Node node : itemToTree.get(orderedWords.get(last))){
                         if (node.hasParent(orderedWords.get(i))){
                             for (String element : item.getItemSet()){
-                                if (!node.hasParent(element) && !node.getValue().getLeft().equals(orderedWords.get(last))){
+                                if (!node.hasParent(element) && !node.getValue().getLeft().equals(element)){
                                     somethingFailed = true;
                                 }
                             }
                             if(!somethingFailed){
                                 counter += node.getValue().getRight();
                             }
-                        }else{
-                            somethingFailed = true;
                         }
+                        somethingFailed = false;
                     }
                     if (counter >= minFrequency){
                         Item newItem = new Item(new ArrayList<>(), counter);

@@ -55,6 +55,7 @@ public class Parser {
             BufferedReader br=new BufferedReader(ipsr);
             String line;
             while ((line=br.readLine()) != null){
+				line = " "+line;
                 articles.add(line);
             }
             br.close();
