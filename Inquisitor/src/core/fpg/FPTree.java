@@ -1,4 +1,4 @@
-package core.FPGrowth;
+package core.fpg;
 
 /**
  * Class used to managed the fpGrowth tree
