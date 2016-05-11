@@ -1,9 +1,6 @@
 package core.fpg;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import core.ERAAlgorithm;
 import core.fpg.itemSetUtil.Item;
@@ -12,11 +9,14 @@ import core.fpg.itemSetUtil.KItemSetFPG;
 public class FPGrowth implements ERAAlgorithm {
 
     private double support;
+    private double confidence;
     private int minFrequency;
     private List<KItemSetFPG> kItemSetFPGList = new ArrayList<>();
+    private ArrayList<AssociationRules> ar = new ArrayList<>();
 
-    public FPGrowth(double support){
+    public FPGrowth(double support, double confidence){
         this.support = support;
+        this.confidence = confidence;
     }
 
 
@@ -125,14 +125,18 @@ public class FPGrowth implements ERAAlgorithm {
         System.out.println("step 4 done");
 
         // Calculus of the frequent item-set
-        frequentItemSet(tree, orderedWords, itemToTree);
+        frequentItemSet(orderedWords, orderedInt, itemToTree);
+
+        // call to the method which search for assocaition rules
+        findAssociation();
 
         // print all k-item set
         showKItemSet();
+        showAssociationRules();
 	}
 
     // method used to get the frequent item-set
-    private void frequentItemSet(FPTree tree, ArrayList<String> orderedWords, Map<String, List<Node>> itemToTree){
+    private void frequentItemSet(ArrayList<String> orderedWords, Integer[] orderedInt, Map<String, List<Node>> itemToTree){
 
         boolean noMoreKItemSet = false;
         int k = 2;
@@ -147,7 +151,7 @@ public class FPGrowth implements ERAAlgorithm {
                 for (Node node : itemToTree.get(orderedWords.get(i))){
                     if(node.hasParent(orderedWords.get(j))) counter+=node.getValue().getRight();
                 }
-                if(counter != 0 && counter > minFrequency){
+                if(counter > minFrequency){
                     Item toAdd = new Item(new ArrayList<>(), counter);
                     toAdd.addStringToItem(orderedWords.get(i));
                     toAdd.addStringToItem(orderedWords.get(j));
@@ -217,17 +221,43 @@ public class FPGrowth implements ERAAlgorithm {
 
     }
 
+    private void findAssociation(){
+        for(int i = 0; i<kItemSetFPGList.size()-1; i++){
+            KItemSetFPG base = kItemSetFPGList.get(i);
+            KItemSetFPG onSearch = kItemSetFPGList.get(i+1);
+            for (Item itemBase : base.getkItemSet()){
+                for (Item itemOnSearch : onSearch.getkItemSet()){
+                    if(itemOnSearch.getItemSet().containsAll(itemBase.getItemSet()) && itemOnSearch.getNbOccur()/(double)itemBase.getNbOccur() > confidence){
+                        ArrayList<String> arrayList = new ArrayList(itemOnSearch.getItemSet());
+                        arrayList.removeAll(itemBase.getItemSet());
+                        ar.add(new AssociationRules(itemBase.getItemSet(), itemBase.getNbOccur(), arrayList.get(0),itemOnSearch.getNbOccur()));
+                    }
+                }
+
+            }
+        }
+    }
+
     private void showKItemSet(){
         for(KItemSetFPG kItemSetFPG : kItemSetFPGList){
             String string = "";
+            System.out.println();
             string += kItemSetFPG.getK()+"-item-set : ";
+            System.out.println(string);
             for (Item item : kItemSetFPG.getkItemSet()){
+                string = "";
                 for(String it : item.getItemSet()){
                     string += it+" , ";
                 }
                 string += item.getNbOccur()+" ; ";
+                System.out.println(string);
             }
-            System.out.println(string);
+        }
+    }
+
+    private void showAssociationRules(){
+        for (AssociationRules a : ar){
+            System.out.println(a.toString());
         }
     }
 }

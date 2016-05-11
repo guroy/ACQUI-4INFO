@@ -27,7 +27,7 @@ public class Apriori implements ERAAlgorithm {
 			nextMots.add(mot);
 			int count = 0;
 			
-			//on compte combien de fois apparais le mot et mémorise où
+			//on compte combien de fois apparais le mot et mï¿½morise oï¿½
 			for (int i = 0; i < map.length; i++) {
 				if (map[i][index]) {
 					count++;
@@ -59,7 +59,7 @@ public class Apriori implements ERAAlgorithm {
 		//Va stocker les ensembles ajoutÃ©s Ã  cette Ã©tape
 		Map<ArrayList<String>, ArrayList<Integer>> next = new HashMap<ArrayList<String>,  ArrayList<Integer>>();
 
-		//On récupère toutes les clefs pour itéré dessus
+		//On rï¿½cupï¿½re toutes les clefs pour itï¿½rï¿½ dessus
 		List<ArrayList<String>> keys = new ArrayList<ArrayList<String>>(current.keySet());
 
 			
@@ -80,7 +80,7 @@ public class Apriori implements ERAAlgorithm {
 				temp.addAll(a);				
 				temp.removeAll(b);
 				
-				//on récupère les mots pour les règles d'inférences
+				//on rï¿½cupï¿½re les mots pour les rï¿½gles d'infï¿½rences
 				if(temp.size()==1){
 					add1=temp.get(0);
 					temp.addAll(b);				
@@ -92,12 +92,12 @@ public class Apriori implements ERAAlgorithm {
 				
 				
 				int res = 0;	
-				//Intersection des lignes oùles deux item-set de départs apparaissent ensembles
+				//Intersection des lignes oï¿½les deux item-set de dï¿½parts apparaissent ensembles
 				ArrayList<Integer> nextLines = intersection(current.get(a),current.get(b));
 			
 				res = nextLines.size();
 				
-				//S'ils apparraissent  assez fréquament, on les ajoutent
+				//S'ils apparraissent  assez frï¿½quament, on les ajoutent
 				double support = (((double)res)/nbArticle)*100;
 				if(support>0.9){
 					if (!result.containsKey(temp)) {
@@ -152,7 +152,7 @@ public class Apriori implements ERAAlgorithm {
 
 	    // create your filewriter and bufferedreader
 	    try {
-			fstream = new FileWriter("C:/Users/User/Desktop/result.txt");
+			fstream = new FileWriter("C:/Test/result.txt");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
