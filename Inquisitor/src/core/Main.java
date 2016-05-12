@@ -27,7 +27,7 @@ public class Main {
 					fp.process(parser.getWords(), parser.getTab());
 
 				}else {
-					Apriori ap = new Apriori(args[3],0.05,0.5);
+					Apriori ap = new Apriori(args[3],0.05,0.75);
 					ap.process(parser.getWords(), parser.getTab());
 				}
 			}
