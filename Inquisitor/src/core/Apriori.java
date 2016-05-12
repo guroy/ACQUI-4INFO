@@ -14,6 +14,16 @@ public class Apriori implements ERAAlgorithm {
 	private Map<ArrayList<String>, Integer> result = new HashMap<ArrayList<String>, Integer>();
 	private Map<Map<ArrayList<String>,String>, Double> associationRules = new HashMap<Map<ArrayList<String>,String>, Double>();
 	private int nbArticle;
+	private String output;
+	private double suppMin;
+	private double confMin;
+
+	public Apriori(String output,double suppMin,double confMin){
+		this.output=output;
+		this.suppMin=suppMin;
+		this.confMin=confMin;
+	}
+	
 	
 	public void process(List<String> mots, boolean[][] map) {
 		Map<ArrayList<String>, ArrayList<Integer>> next = new HashMap<ArrayList<String>,  ArrayList<Integer>>();
@@ -98,24 +108,26 @@ public class Apriori implements ERAAlgorithm {
 				res = nextLines.size();
 				
 				//S'ils apparraissent  assez fr�quament, on les ajoutent
-				double support = (((double)res)/nbArticle)*100;
-				if(support>0.9){
+				double support = (((double)res)/nbArticle);
+				if(support>suppMin){
 					if (!result.containsKey(temp)) {
 						next.put(temp,nextLines);
 						result.put(temp, res);
 					}
 					
-					double oldSupport1 = (((double)current.get(b).size())/nbArticle)*100;
-					double oldSupport2 = (((double)current.get(a).size())/nbArticle)*100;
-		
+					double oldSupport1 = (((double)current.get(b).size())/nbArticle);
+					double oldSupport2 = (((double)current.get(a).size())/nbArticle);
+					
 					Map<ArrayList<String>, String> rules1 = new HashMap<ArrayList<String>,  String>();
 					Map<ArrayList<String>, String> rules2 = new HashMap<ArrayList<String>,  String>();
-
-					rules1.put(b, add1);
-					rules2.put(a, add2);
-					associationRules.put(rules1, support/oldSupport1);
-					associationRules.put(rules2, support/oldSupport2);
-
+					if(support/oldSupport1>confMin){
+						rules1.put(b, add1);
+						associationRules.put(rules1, support/oldSupport1);
+					}
+					if(support/oldSupport2>confMin){
+						rules2.put(a, add2);
+						associationRules.put(rules2, support/oldSupport2);
+					}
 				}
 				
 
@@ -152,7 +164,7 @@ public class Apriori implements ERAAlgorithm {
 
 	    // create your filewriter and bufferedreader
 	    try {
-			fstream = new FileWriter("C:/Test/result.txt");
+			fstream = new FileWriter(output);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

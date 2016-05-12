@@ -11,7 +11,7 @@ public class Main {
 
 		Parser parser = new Parser();
 		FPGrowth fp = new FPGrowth(0.05, 0.75);
-		Apriori ap = new Apriori();
+		Apriori ap = new Apriori(args[3],0.05,0.5);
 		
 		// -t = étude du ticket
 		// -a = étude de l'article
@@ -30,8 +30,8 @@ public class Main {
 				// TODO : Faire l'étude des articles
 				parser.run(args[1], args[2]);
 
-				//ap.process(parser.getWords(), parser.getTab());
-				fp.process(parser.getWords(), parser.getTab());
+				ap.process(parser.getWords(), parser.getTab());
+				//fp.process(parser.getWords(), parser.getTab());
 			}
 		} else if (args[1].equals("-t")) {
 			if (args.length != 3) {
