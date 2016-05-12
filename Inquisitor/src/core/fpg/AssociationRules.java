@@ -13,10 +13,6 @@ public class AssociationRules {
     private int implieFreq;
     private double confidence;
 
-    public double getConfidence() {
-        return confidence;
-    }
-
     AssociationRules(ArrayList newSet, int newSetFreq, String newImplie, int newImplieFreq){
         set = newSet;
         setFreq = newSetFreq;

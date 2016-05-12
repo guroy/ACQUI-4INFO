@@ -7,13 +7,6 @@ import core.fpg.FPGrowth;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-
-		Parser parser = new Parser();
-		ParserTicket parser2 = new ParserTicket();
-		FPGrowth fp = new FPGrowth(0.05, 0.75);
-		Apriori ap = new Apriori(args[3],0.05,0.5);
-		
 		// -t = étude du ticket
 		// -a = étude de l'article
 		if(args.length == 0){
@@ -23,41 +16,44 @@ public class Main {
 			System.out.println("inquisitor -t ticket.txt fichier.out");
 		}
 		else if (args[0].equals("-a")) {
-			if (args.length != 4) {
+			if (args.length != 4 && args.length != 5) {
 				System.out.println("Utilisation : ");
 				System.out.println("inquisitor -a articles.txt mots.txt fichier.out");
 			} else {
-				// TODO : Parser le fichier articles avec les mots discriminants
-				// TODO : Faire l'étude des articles
+				Parser parser = new Parser();
 				parser.run(args[1], args[2]);
+				if (args[4].equals("-fpg")){
+					FPGrowth fp = new FPGrowth(0.05, 0.75);
+					fp.process(parser.getWords(), parser.getTab());
 
-				ap.process(parser.getWords(), parser.getTab());
-				//fp.process(parser.getWords(), parser.getTab());
+				}else {
+					Apriori ap = new Apriori(args[3],0.05,0.5);
+					ap.process(parser.getWords(), parser.getTab());
+				}
 			}
 		} else if (args[0].equals("-t")) {
-			if (args.length != 3) {
+			if (args.length != 4 && args.length != 3) {
 				System.out.println("Utilisation : ");
 				System.out.println("inquisitor -t ticket.txt fichier.out");
 			} else {
 				// TODO : Étude du ticket de caisse
+				ParserTicket parser2 = new ParserTicket();
 				parser2.run(args[1]);
-				
-				/*for(int i =0; i< parser2.getTab().length;i++){
-					for(int j =0; j< parser2.getTab()[0].length;j++){
-						System.out.println(parser2.getTab()[i][j]);
-					}
-					System.out.println("");
-				}*/
-				
-				
-				ap.process(parser2.getWords(), parser2.getTab());
-				//fp.process(parser2.getWords(), parser2.getTab());
+
+				if (args[3].equals("-fpg")){
+					FPGrowth fp = new FPGrowth(0.05, 0.75);
+					fp.process(parser2.getWords(), parser2.getTab());
+
+				}else {
+					Apriori ap = new Apriori(args[3],0.05,0.5);
+					ap.process(parser2.getWords(), parser2.getTab());
+				}
 			}
 		} else {
 			System.out.println("Utilisation : ");
-			System.out.println("inquisitor -a articles.txt mots.txt fichier.out");
+			System.out.println("inquisitor -a articles.txt mots.txt fichier.out [option : -fpg]");
 			System.out.println("ou");
-			System.out.println("inquisitor -t ticket.txt fichier.out");
+			System.out.println("inquisitor -t ticket.txt fichier.out [option : -fpg]");
 		}
 	}
 
