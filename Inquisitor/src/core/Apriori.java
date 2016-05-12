@@ -37,7 +37,7 @@ public class Apriori implements ERAAlgorithm {
 			nextMots.add(mot);
 			int count = 0;
 			
-			//on compte combien de fois apparais le mot et mï¿½morise oï¿½
+			//on compte combien de fois apparais le mot et mémorise ça
 			for (int i = 0; i < map.length; i++) {
 				if (map[i][index]) {
 					count++;
@@ -54,8 +54,7 @@ public class Apriori implements ERAAlgorithm {
 		
 
 		L(mots, map, next);
-		System.out.println(result);
-
+		
 		System.out.println("fin");
 		
 		this.writeOut();
@@ -63,23 +62,22 @@ public class Apriori implements ERAAlgorithm {
 		
 	}
 
-	// current = item de l'Ã©tape prÃ©cÃ©dantes, length taille des trucs de l'Ã©tape
-	// prÃ©cÃ©dante
+	// current = item de l'étape précédantes, length taille des trucs de l'étape précédante
 	private void L(List<String> mots, boolean[][] map, Map<ArrayList<String>, ArrayList<Integer>> current) {
 
-		//Va stocker les ensembles ajoutÃ©s Ã  cette Ã©tape
+		//Va stocker les ensembles ajoutés à cette étape
 		Map<ArrayList<String>, ArrayList<Integer>> next = new HashMap<ArrayList<String>,  ArrayList<Integer>>();
 
-		//On rï¿½cupï¿½re toutes les clefs pour itï¿½rï¿½ dessus
+		//On récupère toutes les clefs pour itéré dessus
 		List<ArrayList<String>> keys = new ArrayList<ArrayList<String>>(current.keySet());
 
 			
-		//Pour tout les ensembles de l'Ã©tape prÃ©cÃ©dante
+		//Pour tout les ensembles de l'étape précédante
 		for (int i = 0; i < keys.size(); i++) {
 			ArrayList<String> a = keys.get(i);
 
 			
-			//On compare Ã  tout les autres ensembles
+			//On compareà tout les autres ensembles
 			for (int j = i + 1; j < keys.size(); j++) {
 				String add1="";
 				String add2="";
@@ -91,7 +89,7 @@ public class Apriori implements ERAAlgorithm {
 				temp.addAll(a);				
 				temp.removeAll(b);
 				
-				//on rï¿½cupï¿½re les mots pour les rï¿½gles d'infï¿½rences
+				//S'il ont que 1 élément d'écart, on rajoute les mot différents add1 et add2
 				if(temp.size()==1){
 					add1=temp.get(0);
 					temp.addAll(b);				
@@ -99,17 +97,19 @@ public class Apriori implements ERAAlgorithm {
 					add2=temp.get(0);
 					temp.addAll(a);
 				}				
+				
+				//trie par ordre alphabétique
 				java.util.Collections.sort(temp);
 				
 
 				
 				int res = 0;	
-				//Intersection des lignes oï¿½les deux item-set de dï¿½parts apparaissent ensembles
+				//Intersection des lignes entre les deux item-set de départs apparaissent ensembles
 				ArrayList<Integer> nextLines = intersection(current.get(a),current.get(b));
 			
 				res = nextLines.size();
 				
-				//S'ils apparraissent  assez frï¿½quament, on les ajoutent
+				//S'ils apparraissent  assez fréquamment , on les ajoutent
 				double support = (((double)res)/nbArticle);
 				if(support>suppMin){
 					if (!result.containsKey(temp)) {
@@ -117,6 +117,8 @@ public class Apriori implements ERAAlgorithm {
 						result.put(temp, res);
 					}
 					
+					
+					//On ajoute les règles d'inférence si elles ont une assez bonne confidence
 					double oldSupport1 = (((double)current.get(b).size())/nbArticle);
 					double oldSupport2 = (((double)current.get(a).size())/nbArticle);
 					

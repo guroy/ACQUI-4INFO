@@ -22,7 +22,7 @@ public class Main {
 			} else {
 				Parser parser = new Parser();
 				parser.run(args[1], args[2]);
-				if (args[4].equals("-fpg")){
+				if (args.length == 5 && args[4].equals("-fpg")){
 					FPGrowth fp = new FPGrowth(0.05, 0.75);
 					fp.process(parser.getWords(), parser.getTab());
 
@@ -36,7 +36,6 @@ public class Main {
 				System.out.println("Utilisation : ");
 				System.out.println("inquisitor -t ticket.txt fichier.out");
 			} else {
-				// TODO : Étude du ticket de caisse
 				ParserTicket parser2 = new ParserTicket();
 				parser2.run(args[1]);
 
