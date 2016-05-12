@@ -1,15 +1,22 @@
 package core;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ParserTicket {
+	////////////////////////////////
 	// Les noms des attributs
 	private ArrayList<String> words = new ArrayList<String>();
 	// Tableau de présence (true si présent)
 	private boolean[][] tab;
-
+	////////////////////////////////
+	
 	public ArrayList<String> getWords() {
 		return words;
 	}
@@ -28,7 +35,18 @@ public class ParserTicket {
 
 	public void run(String entry_tickets) throws FileNotFoundException {
 
-		Scanner scan = new Scanner(entry_tickets);
+		InputStream ips=new FileInputStream(entry_tickets);
+        InputStreamReader ipsr = null;
+		try {
+			ipsr = new InputStreamReader(ips, "ISO-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         //BufferedReader br=new BufferedReader(ipsr);
+         //String line;
+		
+		Scanner scan = new Scanner(ipsr);
 		
 		// Lecture de l'entete
 		String[] entete = scan.nextLine().split("\t");
@@ -40,9 +58,6 @@ public class ParserTicket {
 		}
 
 		// REMPLISSAGE DE word
-
-		// colonne 1 : cardid
-		// ignore
 
 		// colonne 2 :  prix
 		// Calcul de min et max de prix
@@ -180,15 +195,15 @@ public class ParserTicket {
 			}
 			
 		}
+		
+		setTab(tabRes);
 	}//end run(...)
 
 	
 	
 	
 	public double min(ArrayList<String[]> body, int colonne) {
-
 		double min = Double.MAX_VALUE;
-
 		// TIPS : "double Double.parseDouble(String str)"
 		for (String[] tab : body) {
 			if (Double.parseDouble(tab[colonne]) < min) {
@@ -199,9 +214,7 @@ public class ParserTicket {
 	}
 
 	public double max(ArrayList<String[]> body, int colonne) {
-
 		double max = Double.MIN_VALUE;
-
 		for (String[] tab : body) {
 			if (Double.parseDouble(tab[colonne]) > max) {
 				max = Double.parseDouble(tab[colonne]);

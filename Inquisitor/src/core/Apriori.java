@@ -23,7 +23,7 @@ public class Apriori implements ERAAlgorithm {
 			nextMots.add(mot);
 			int count = 0;
 			
-			//on compte combien de fois apparais le mot et mémorise où
+			//on compte combien de fois apparais le mot et mï¿½morise oï¿½
 			for (int i = 0; i < map.length; i++) {
 				if (map[i][index]) {
 					count++;
@@ -40,7 +40,8 @@ public class Apriori implements ERAAlgorithm {
 		
 
 		L(mots, map, next);
-		
+		System.out.println(result);
+
 		System.out.println("fin");
 		
 		//this.writeOut();
@@ -55,7 +56,7 @@ public class Apriori implements ERAAlgorithm {
 		//Va stocker les ensembles ajoutÃ©s Ã  cette Ã©tape
 		Map<ArrayList<String>, ArrayList<Integer>> next = new HashMap<ArrayList<String>,  ArrayList<Integer>>();
 
-		//On récupère toutes les clefs pour itéré dessus
+		//On rï¿½cupï¿½re toutes les clefs pour itï¿½rï¿½ dessus
 		List<ArrayList<String>> keys = new ArrayList<ArrayList<String>>(current.keySet());
 
 			
@@ -82,7 +83,7 @@ public class Apriori implements ERAAlgorithm {
 					int res = 0;
 
 				
-					//Intersection des lignes oùles deux item-set de départs apparaissent ensembles
+					//Intersection des lignes oï¿½les deux item-set de dï¿½parts apparaissent ensembles
 					ArrayList<Integer> nextLines = intersection(current.get(a),current.get(b));
 
 					
@@ -91,7 +92,7 @@ public class Apriori implements ERAAlgorithm {
 					//S'ils apparraissent au moins une fois et assez frÃ©quent, on les ajoutent
 					if(res > 0){
 						double support = (((double)res)/map.length)*100;
-						if(support>0.9){
+						if(support>0.5){
 							next.put(temp,nextLines);
 							result.put(temp, res);
 					
