@@ -54,7 +54,8 @@ public class Apriori implements ERAAlgorithm {
 		
 
 		L(mots, map, next);
-		
+		System.out.println(result);
+
 		System.out.println("fin");
 		
 		this.writeOut();
@@ -100,6 +101,7 @@ public class Apriori implements ERAAlgorithm {
 				}				
 				java.util.Collections.sort(temp);
 				
+
 				
 				int res = 0;	
 				//Intersection des lignes o�les deux item-set de d�parts apparaissent ensembles

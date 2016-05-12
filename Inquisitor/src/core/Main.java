@@ -10,6 +10,7 @@ public class Main {
 		// TODO Auto-generated method stub
 
 		Parser parser = new Parser();
+		ParserTicket parser2 = new ParserTicket();
 		FPGrowth fp = new FPGrowth(0.05, 0.75);
 		Apriori ap = new Apriori(args[3],0.05,0.5);
 		
@@ -33,12 +34,24 @@ public class Main {
 				ap.process(parser.getWords(), parser.getTab());
 				//fp.process(parser.getWords(), parser.getTab());
 			}
-		} else if (args[1].equals("-t")) {
+		} else if (args[0].equals("-t")) {
 			if (args.length != 3) {
 				System.out.println("Utilisation : ");
 				System.out.println("inquisitor -t ticket.txt fichier.out");
 			} else {
 				// TODO : Étude du ticket de caisse
+				parser2.run(args[1]);
+				
+				/*for(int i =0; i< parser2.getTab().length;i++){
+					for(int j =0; j< parser2.getTab()[0].length;j++){
+						System.out.println(parser2.getTab()[i][j]);
+					}
+					System.out.println("");
+				}*/
+				
+				
+				ap.process(parser2.getWords(), parser2.getTab());
+				//fp.process(parser2.getWords(), parser2.getTab());
 			}
 		} else {
 			System.out.println("Utilisation : ");
