@@ -2,7 +2,7 @@ package core;
 
 import java.io.IOException;
 
-import core.FPGrowth.FPGrowth;
+import core.fpg.FPGrowth;
 
 public class Main {
 
@@ -11,7 +11,7 @@ public class Main {
 
 		Parser parser = new Parser();
 		ParserTicket parser2 = new ParserTicket();
-		FPGrowth fp = new FPGrowth(0.001);
+		FPGrowth fp = new FPGrowth(0.05, 0.75);
 		Apriori ap = new Apriori();
 		
 		// -t = étude du ticket
@@ -31,8 +31,8 @@ public class Main {
 				// TODO : Faire l'étude des articles
 				parser.run(args[1], args[2]);
 
-				ap.process(parser.getWords(), parser.getTab());
-				//fp.process(parser.getWords(), parser.getTab());
+				//ap.process(parser.getWords(), parser.getTab());
+				fp.process(parser.getWords(), parser.getTab());
 			}
 		} else if (args[0].equals("-t")) {
 			if (args.length != 3) {

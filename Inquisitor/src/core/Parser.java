@@ -2,7 +2,9 @@ package core;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Parser {
 	private ArrayList<String> words = new ArrayList<String>();
@@ -42,6 +44,12 @@ public class Parser {
                 words.add(line);
             }
             br.close();
+
+			// Créer une liste de contenu unique basée sur les éléments de ArrayList
+			Set<String> mySet = new HashSet<String>(words);
+
+			// Créer une Nouvelle ArrayList à partir de Set
+			words = new ArrayList<String>(mySet);
         }
         catch (Exception e){
             System.out.println(e.toString());
@@ -55,6 +63,7 @@ public class Parser {
             BufferedReader br=new BufferedReader(ipsr);
             String line;
             while ((line=br.readLine()) != null){
+				line = " "+line;
                 articles.add(line);
             }
             br.close();

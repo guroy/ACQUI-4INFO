@@ -1,4 +1,4 @@
-package core.FPGrowth.itemSetUtil;
+package core.fpg.itemSetUtil;
 
 import java.util.ArrayList;
 
@@ -12,6 +12,11 @@ public class Item {
     }
 
     private ArrayList<String> itemSet;
+
+    public int getNbOccur() {
+        return nbOccur;
+    }
+
     private int nbOccur;
 
     public Item(ArrayList<String> itemSet, int first){

@@ -12,10 +12,14 @@ import java.util.Map.Entry;
 
 public class Apriori implements ERAAlgorithm {
 	private Map<ArrayList<String>, Integer> result = new HashMap<ArrayList<String>, Integer>();
-
+	private Map<Map<ArrayList<String>,String>, Double> associationRules = new HashMap<Map<ArrayList<String>,String>, Double>();
+	private int nbArticle;
+	
 	public void process(List<String> mots, boolean[][] map) {
 		Map<ArrayList<String>, ArrayList<Integer>> next = new HashMap<ArrayList<String>,  ArrayList<Integer>>();
-
+		
+		nbArticle = map.length;
+		
 		int index =0;
 		for (String mot : mots) {
 			ArrayList<String> nextMots = new ArrayList<String>();
@@ -44,7 +48,7 @@ public class Apriori implements ERAAlgorithm {
 
 		System.out.println("fin");
 		
-		//this.writeOut();
+		this.writeOut();
 		
 		
 	}
@@ -67,42 +71,56 @@ public class Apriori implements ERAAlgorithm {
 			
 			//On compare à tout les autres ensembles
 			for (int j = i + 1; j < keys.size(); j++) {
+				String add1="";
+				String add2="";
+		
 				ArrayList<String> b = keys.get(j);
 				
 				ArrayList<String> temp = new ArrayList<String>();
 
-				for (String s : a) {
-					temp.add(s);
-				}
+				temp.addAll(a);				
 				temp.removeAll(b);
+				
+				//on r�cup�re les mots pour les r�gles d'inf�rences
 				if(temp.size()==1){
-					temp.addAll(b);
+					add1=temp.get(0);
+					temp.addAll(b);				
+					temp.removeAll(a);
+					add2=temp.get(0);
+					temp.addAll(a);
 				}				
 				java.util.Collections.sort(temp);
-				if (!result.containsKey(temp)) {
-					int res = 0;
+				
 
 				
-					//Intersection des lignes o�les deux item-set de d�parts apparaissent ensembles
-					ArrayList<Integer> nextLines = intersection(current.get(a),current.get(b));
-
-					
-					res = nextLines.size();
-					
-					//S'ils apparraissent au moins une fois et assez fréquent, on les ajoutent
-					if(res > 0){
-						double support = (((double)res)/map.length)*100;
-						if(support>0.5){
-							next.put(temp,nextLines);
-							result.put(temp, res);
-					
-							
-						}
+				int res = 0;	
+				//Intersection des lignes o�les deux item-set de d�parts apparaissent ensembles
+				ArrayList<Integer> nextLines = intersection(current.get(a),current.get(b));
+			
+				res = nextLines.size();
+				
+				//S'ils apparraissent  assez fr�quament, on les ajoutent
+				double support = (((double)res)/nbArticle)*100;
+				if(support>0.9){
+					if (!result.containsKey(temp)) {
+						next.put(temp,nextLines);
+						result.put(temp, res);
 					}
+					
+					double oldSupport1 = (((double)current.get(b).size())/nbArticle)*100;
+					double oldSupport2 = (((double)current.get(a).size())/nbArticle)*100;
+		
+					Map<ArrayList<String>, String> rules1 = new HashMap<ArrayList<String>,  String>();
+					Map<ArrayList<String>, String> rules2 = new HashMap<ArrayList<String>,  String>();
+
+					rules1.put(b, add1);
+					rules2.put(a, add2);
+					associationRules.put(rules1, support/oldSupport1);
+					associationRules.put(rules2, support/oldSupport2);
+
 				}
 				
-				
-				
+
 			}
 
 		}
@@ -136,7 +154,7 @@ public class Apriori implements ERAAlgorithm {
 
 	    // create your filewriter and bufferedreader
 	    try {
-			fstream = new FileWriter("C:/Users/User/Desktop/result.txt");
+			fstream = new FileWriter("/home-reseau/egeantet/4-Annee/AcquiCo/result.txt");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -162,6 +180,24 @@ public class Apriori implements ERAAlgorithm {
 			}
 
 	    }
+	    
+	    
+	    Iterator<Entry<Map<ArrayList<String>, String>, Double>> it2 = associationRules.entrySet().iterator();
+	    
+	    while (it2.hasNext()) {
+
+	        // the key/value pair is stored here in pairs
+	        Entry<Map<ArrayList<String>, String>, Double> pairs = it2.next();
+	        // since you only want the value, we only care about pairs.getValue(), which is written to out
+	        try {
+				out.write(pairs.getKey() + "|| Confidence = " +pairs.getValue() + "\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	    }
+	    
 	    // lastly, close the file and end
 	    try {
 			out.close();

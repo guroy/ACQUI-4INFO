@@ -1,4 +1,4 @@
-package core.FPGrowth;
+package core.fpg;
 
 /**
  * Class used as an util for fpGrowth
