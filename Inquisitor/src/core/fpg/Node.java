@@ -2,6 +2,7 @@ package core.fpg;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by klamblot on 21/04/2016.
@@ -71,6 +72,12 @@ public class Node {
         return suns.get(counter - 1);
     }
 
+    public void getAllAscendant(Set<String> parentWords){
+        if(!father.getValue().getLeft().equals("root")){
+            parentWords.add(father.getValue().getLeft());
+            father.getAllAscendant(parentWords);
+        }
+    }
     // Method to check if this has a parent named name
     public boolean hasParent(String name){
         return (this.father.getValue().getLeft().equals(name) || (!this.father.getValue().getLeft().equals("root") && this.father.hasParent(name)));

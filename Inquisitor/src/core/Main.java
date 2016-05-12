@@ -23,7 +23,7 @@ public class Main {
 				Parser parser = new Parser();
 				parser.run(args[1], args[2]);
 				if (args.length == 5 && args[4].equals("-fpg")){
-					FPGrowth fp = new FPGrowth(0.05, 0.75);
+					FPGrowth fp = new FPGrowth(args[3], 0.05, 0.75);
 					fp.process(parser.getWords(), parser.getTab());
 
 				}else {
@@ -40,7 +40,7 @@ public class Main {
 				parser2.run(args[1]);
 
 				if (args[3].equals("-fpg")){
-					FPGrowth fp = new FPGrowth(0.05, 0.75);
+					FPGrowth fp = new FPGrowth(args[3], 0.05, 0.75);
 					fp.process(parser2.getWords(), parser2.getTab());
 
 				}else {

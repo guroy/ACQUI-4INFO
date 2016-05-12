@@ -1,5 +1,8 @@
 package core.fpg;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 import core.ERAAlgorithm;
@@ -14,9 +17,12 @@ public class FPGrowth implements ERAAlgorithm {
     private List<KItemSetFPG> kItemSetFPGList = new ArrayList<>();
     private ArrayList<AssociationRules> ar = new ArrayList<>();
 
-    public FPGrowth(double support, double confidence){
+    private String output;
+
+    public FPGrowth(String output, double support, double confidence){
         this.support = support;
         this.confidence = confidence;
+        this.output = output;
     }
 
 
@@ -131,8 +137,9 @@ public class FPGrowth implements ERAAlgorithm {
         findAssociation();
 
         // print all k-item set
-        showKItemSet();
-        showAssociationRules();
+        // showKItemSet();
+        // showAssociationRules();
+        writeInFile();
 	}
 
     // method used to get the frequent item-set
@@ -180,13 +187,17 @@ public class FPGrowth implements ERAAlgorithm {
                 }
 
                 // The process
-                // for each words not in the current set
-                for (int i=0 ; i < first; i++){
+                //
+                Set<String> parentWords = new HashSet<>();
+                for (Node node : itemToTree.get(orderedWords.get(first))){
+                    node.getAllAscendant(parentWords);
+                }
+                for (String toSearch : parentWords){
 
                     int counter = 0;
                     boolean somethingFailed = false;
                     for (Node node : itemToTree.get(orderedWords.get(last))){
-                        if (node.hasParent(orderedWords.get(i))){
+                        if (node.hasParent(toSearch)){
                             for (String element : item.getItemSet()){
                                 if (!node.hasParent(element) && !node.getValue().getLeft().equals(element)){
                                     somethingFailed = true;
@@ -203,7 +214,7 @@ public class FPGrowth implements ERAAlgorithm {
                         for(String string : item.getItemSet()){
                             newItem.addStringToItem(string);
                         }
-                        newItem.addStringToItem(orderedWords.get(i));
+                        newItem.addStringToItem(toSearch);
                         kItemCurrent.addItem(newItem);
                     }
                 }
@@ -259,5 +270,71 @@ public class FPGrowth implements ERAAlgorithm {
         for (AssociationRules a : ar){
             System.out.println(a.toString());
         }
+    }
+
+    private void writeInFile(){
+        FileWriter fstream = null;
+        BufferedWriter out;
+
+        // create your filewriter and bufferedreader
+        try {
+            fstream = new FileWriter(output);
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        out = new BufferedWriter(fstream);
+
+        try {
+            out.write("ItemSets : \n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for(KItemSetFPG kItemSetFPG : kItemSetFPGList){
+            String string = "\n";
+            try {
+                out.write(string);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            string += kItemSetFPG.getK()+"-item-set : \n";
+            try {
+                out.write(string);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (Item item : kItemSetFPG.getkItemSet()){
+                string = "";
+                for(String it : item.getItemSet()){
+                    string += it+" , ";
+                }
+                string += item.getNbOccur()+" \n";
+                try {
+                    out.write(string);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        try {
+            out.write("\nAssociation rules : \n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (AssociationRules a : ar){
+            try {
+                out.write(a.toString()+"\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
