@@ -36,15 +36,13 @@ public class ParserTicket {
 	public void run(String entry_tickets) throws FileNotFoundException {
 
 		InputStream ips=new FileInputStream(entry_tickets);
-        InputStreamReader ipsr = null;
+		InputStreamReader ipsr = null;
 		try {
 			ipsr = new InputStreamReader(ips, "ISO-8859-1");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-         //BufferedReader br=new BufferedReader(ipsr);
-         //String line;
+         
 		
 		Scanner scan = new Scanner(ipsr);
 		
@@ -56,9 +54,10 @@ public class ParserTicket {
 		while (scan.hasNextLine()) {
 			body.add(scan.nextLine().split("\t"));
 		}
-
-		// REMPLISSAGE DE word
-
+		////////////////////////////
+		//// REMPLISSAGE DE word////
+		////////////////////////////
+		
 		// colonne 2 :  prix
 		// Calcul de min et max de prix
 		double minP = min(body, 1);
@@ -113,12 +112,16 @@ public class ParserTicket {
 			words.add(entete[i]);
 		}
 
-		// CREATION DE tab
+		////////////////////////////
+		///// CREATION DE tab //////
+		////////////////////////////
 		int nbEntry = body.size();
 		int nbParam = words.size();
 		boolean[][] tabRes = new boolean[nbEntry][nbParam];
 		
-		// REMPLISSAGE DE tab
+		////////////////////////////
+		//// REMPLISSAGE DE tab ////
+		////////////////////////////
 		
 		for (int i=0; i<nbEntry;i++){
 			//Colonne 2 : prix [0 - 3]
