@@ -23,11 +23,11 @@ public class Main {
 				Parser parser = new Parser();
 				parser.run(args[1], args[2]);
 				if (args.length == 5 && args[4].equals("-fpg")){
-					FPGrowth fp = new FPGrowth(args[3], 0.05, 0.75);
+					FPGrowth fp = new FPGrowth(args[3], 0.01, 0.75);
 					fp.process(parser.getWords(), parser.getTab());
 
 				}else {
-					Apriori ap = new Apriori(args[3],0.05,0.75);
+					Apriori ap = new Apriori(args[3],0.01,0.75);
 					ap.process(parser.getWords(), parser.getTab());
 				}
 			}

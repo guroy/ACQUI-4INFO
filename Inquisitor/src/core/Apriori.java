@@ -11,7 +11,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class Apriori implements ERAAlgorithm {
+	//Stock tout les item-set et leur supports
 	private Map<ArrayList<String>, Integer> result = new HashMap<ArrayList<String>, Integer>();
+	
+	//Stock les r√®gles d'association
 	private Map<Map<ArrayList<String>,String>, Double> associationRules = new HashMap<Map<ArrayList<String>,String>, Double>();
 	private int nbArticle;
 	private String output;
@@ -37,7 +40,7 @@ public class Apriori implements ERAAlgorithm {
 			nextMots.add(mot);
 			int count = 0;
 			
-			//on compte combien de fois apparais le mot et mÈmorise Áa
+			//on compte combien de fois apparait le mot et m√©morise √ßa
 			for (int i = 0; i < map.length; i++) {
 				if (map[i][index]) {
 					count++;
@@ -57,27 +60,28 @@ public class Apriori implements ERAAlgorithm {
 		
 		System.out.println("fin");
 		
+		//On √©crit la sortie
 		this.writeOut();
 		
 		
 	}
 
-	// current = item de l'Ètape prÈcÈdantes, length taille des trucs de l'Ètape prÈcÈdante
+	// current = item-set de l'√©tape pr√©c√©dantes
 	private void L(List<String> mots, boolean[][] map, Map<ArrayList<String>, ArrayList<Integer>> current) {
 
-		//Va stocker les ensembles ajoutÈs ‡†cette Ètape
+		//Va stocker les item-set ajout√©s √†¬†cette √©tape et leurs lignes o√π ils apparraissent
 		Map<ArrayList<String>, ArrayList<Integer>> next = new HashMap<ArrayList<String>,  ArrayList<Integer>>();
 
-		//On rÈcupËre toutes les clefs pour itÈrÈ dessus
+		//On r√©cup√®re toutes les clefs pour it√©r√© dessus
 		List<ArrayList<String>> keys = new ArrayList<ArrayList<String>>(current.keySet());
 
 			
-		//Pour tout les ensembles de l'Ètape prÈcÈdante
+		//Pour tout les ensembles de l'√©tape pr√©c√©dante
 		for (int i = 0; i < keys.size(); i++) {
 			ArrayList<String> a = keys.get(i);
 
 			
-			//On compare‡ tout les autres ensembles
+			//On compare √† tout les autres ensembles
 			for (int j = i + 1; j < keys.size(); j++) {
 				String add1="";
 				String add2="";
@@ -89,48 +93,55 @@ public class Apriori implements ERAAlgorithm {
 				temp.addAll(a);				
 				temp.removeAll(b);
 				
-				//S'il ont que 1 ÈlÈment d'Ècart, on rajoute les mot diffÈrents add1 et add2
+				//S'il ont que 1 √©l√©ment d'√©cart, on rajoute les mots diff√©rents add1 et add2 et on peut envisager de g√©n√©rer des r√®gles d'associations et item-set
 				if(temp.size()==1){
 					add1=temp.get(0);
 					temp.addAll(b);				
 					temp.removeAll(a);
 					add2=temp.get(0);
 					temp.addAll(a);
-				}				
-				
-				//trie par ordre alphabÈtique
-				java.util.Collections.sort(temp);
-				
-
-				
-				int res = 0;	
-				//Intersection des lignes entre les deux item-set de dÈparts apparaissent ensembles
-				ArrayList<Integer> nextLines = intersection(current.get(a),current.get(b));
-			
-				res = nextLines.size();
-				
-				//S'ils apparraissent  assez frÈquamment , on les ajoutent
-				double support = (((double)res)/nbArticle);
-				if(support>suppMin){
-					if (!result.containsKey(temp)) {
-						next.put(temp,nextLines);
-						result.put(temp, res);
-					}
+								
 					
+					//trie par ordre alphab√©tique
+					java.util.Collections.sort(temp);
 					
-					//On ajoute les rËgles d'infÈrence si elles ont une assez bonne confidence
-					double oldSupport1 = (((double)current.get(b).size())/nbArticle);
-					double oldSupport2 = (((double)current.get(a).size())/nbArticle);
+	
 					
-					Map<ArrayList<String>, String> rules1 = new HashMap<ArrayList<String>,  String>();
-					Map<ArrayList<String>, String> rules2 = new HashMap<ArrayList<String>,  String>();
-					if(support/oldSupport1>confMin){
-						rules1.put(b, add1);
-						associationRules.put(rules1, support/oldSupport1);
-					}
-					if(support/oldSupport2>confMin){
-						rules2.put(a, add2);
-						associationRules.put(rules2, support/oldSupport2);
+					int res = 0;	
+					//Intersection des lignes entre les deux item-set de d√©parts, pour donner les lignes de l'item-set d'arriv√©
+					ArrayList<Integer> nextLines = intersection(current.get(a),current.get(b));
+				
+					res = nextLines.size();
+					
+					//S'il apparait assez fr√©quemment, on ajoute ce nouvel item set et on consid√®re les r√®gles d'associations associ√©es
+					double support = (((double)res)/nbArticle);
+					if(support>suppMin){
+						
+						//Si on a pas d√©j√† stock√© cet item set on ajoute
+						if (!result.containsKey(temp)) {
+							next.put(temp,nextLines);
+							result.put(temp, res);
+						}
+						
+						
+						//On ajoute les r√®gles d'association si elles ont une assez bonne confiance
+						double oldSupport1 = (((double)current.get(b).size())/nbArticle);
+						double oldSupport2 = (((double)current.get(a).size())/nbArticle);
+						
+						Map<ArrayList<String>, String> rules1 = new HashMap<ArrayList<String>,  String>();
+						Map<ArrayList<String>, String> rules2 = new HashMap<ArrayList<String>,  String>();
+						if(support/oldSupport1>confMin){
+							rules1.put(b, add1);
+							associationRules.put(rules1, support/oldSupport1);
+						}
+						if(support/oldSupport2>confMin){
+							rules2.put(a, add2);
+							associationRules.put(rules2, support/oldSupport2);
+						}
+						
+						
+						
+						
 					}
 				}
 				
@@ -147,6 +158,8 @@ public class Apriori implements ERAAlgorithm {
 
 	}
 	
+	
+	
     public static ArrayList<Integer> intersection(ArrayList<Integer> list1, ArrayList<Integer> list2) {
     	ArrayList<Integer> list = new ArrayList<Integer>();
 
@@ -158,6 +171,9 @@ public class Apriori implements ERAAlgorithm {
 
         return list;
     }
+    
+    
+    
     
     public  void writeOut() {
 
@@ -189,7 +205,6 @@ public class Apriori implements ERAAlgorithm {
 	        try {
 				out.write(pairs.getKey() + " = " +pairs.getValue() + "\n");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -206,7 +221,6 @@ public class Apriori implements ERAAlgorithm {
 	        try {
 				out.write(pairs.getKey() + "|| Confidence = " +pairs.getValue() + "\n");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -216,7 +230,6 @@ public class Apriori implements ERAAlgorithm {
 	    try {
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

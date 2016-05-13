@@ -1,0 +1,320 @@
+ItemSets : 
+
+
+1-item-set : 
+élection , 505 
+présidentiel , 411 
+crise , 326 
+attentat , 263 
+fond , 457 
+vie , 816 
+étude , 363 
+résultat , 617 
+victime , 370 
+chirac , 719 
+ministre , 587 
+jospin , 637 
+équipe , 407 
+territoire , 351 
+conflit , 281 
+financier , 424 
+droite , 304 
+rapport , 603 
+association , 435 
+école , 295 
+économie , 303 
+civil , 340 
+national , 994 
+oeuvre , 394 
+femme , 523 
+police , 281 
+armée , 373 
+sécurité , 482 
+engagement , 289 
+politique , 1356 
+prix , 457 
+terre , 294 
+administration , 275 
+second_tour , 334 
+revanche , 359 
+front_national , 350 
+palestinien , 472 
+banque , 287 
+france , 1564 
+premier_ministre , 388 
+famille , 492 
+manifestation , 321 
+risque , 374 
+européen , 757 
+élections_présidentielles , 427 
+camp , 330 
+président , 1189 
+démocratie , 252 
+gauche , 638 
+monde , 1252 
+foi , 1220 
+euro , 634 
+idée , 525 
+israël , 356 
+paix , 280 
+vote , 446 
+socialiste , 344 
+société , 786 
+république , 359 
+service , 611 
+syndicat , 275 
+militaire , 339 
+histoire , 583 
+étranger , 527 
+action , 506 
+thème , 286 
+arabe , 252 
+droit , 1056 
+opération , 426 
+loi , 472 
+formation , 309 
+le_pen , 526 
+projet , 514 
+septembre , 405 
+états-unis , 494 
+travail , 699 
+europe , 552 
+israélien , 433 
+violence , 291 
+législatif , 340 
+question , 803 
+défense , 318 
+recherche , 358 
+culture , 320 
+enfant , 514 
+mouvement , 546 
+liberté , 307 
+majorité , 354 
+extrême_droite , 346 
+temps , 992 
+peine , 349 
+lutte , 280 
+zone , 282 
+gouvernement , 743 
+juif , 281 
+justice , 317 
+candidat , 802 
+premier_tour , 471 
+international , 634 
+système , 407 
+film , 334 
+économique , 478 
+sondage , 263 
+conseil , 695 
+chaîne , 314 
+enquête , 379 
+policier , 254 
+électeur , 302 
+ville , 686 
+social , 670 
+accord , 455 
+chef , 649 
+guerre , 526 
+américain , 776 
+emploi , 303 
+campagne , 749 
+
+
+2-item-set : 
+extrême_droite , le_pen , 253 
+front_national , le_pen , 300 
+israël , israélien , 275 
+israël , palestinien , 303 
+élections_présidentielles , candidat , 280 
+élections_présidentielles , politique , 268 
+israélien , palestinien , 380 
+vote , politique , 285 
+premier_tour , jospin , 264 
+premier_tour , chirac , 300 
+premier_tour , candidat , 302 
+premier_tour , politique , 297 
+premier_tour , france , 257 
+économique , politique , 272 
+états-unis , américain , 284 
+élection , candidat , 286 
+élection , politique , 327 
+élection , france , 263 
+idée , politique , 274 
+idée , france , 257 
+le_pen , jospin , 252 
+le_pen , gauche , 266 
+le_pen , chirac , 357 
+le_pen , candidat , 264 
+le_pen , politique , 322 
+le_pen , france , 288 
+étranger , politique , 268 
+mouvement , politique , 269 
+europe , politique , 273 
+europe , france , 307 
+histoire , monde , 253 
+histoire , france , 259 
+ministre , président , 275 
+ministre , politique , 280 
+ministre , france , 257 
+service , france , 279 
+résultat , politique , 273 
+résultat , france , 282 
+international , monde , 253 
+international , france , 256 
+euro , france , 266 
+jospin , gauche , 320 
+jospin , chirac , 468 
+jospin , campagne , 341 
+jospin , candidat , 406 
+jospin , droit , 281 
+jospin , président , 263 
+jospin , politique , 384 
+jospin , france , 378 
+gauche , chirac , 331 
+gauche , campagne , 283 
+gauche , candidat , 307 
+gauche , droit , 352 
+gauche , président , 267 
+gauche , politique , 416 
+gauche , france , 360 
+chef , président , 304 
+chef , politique , 326 
+chef , france , 252 
+social , droit , 287 
+social , foi , 264 
+social , politique , 369 
+social , france , 342 
+ville , politique , 253 
+conseil , président , 334 
+conseil , politique , 305 
+conseil , france , 286 
+travail , foi , 277 
+travail , monde , 260 
+travail , politique , 269 
+travail , france , 308 
+chirac , campagne , 367 
+chirac , candidat , 425 
+chirac , national , 259 
+chirac , droit , 316 
+chirac , président , 339 
+chirac , politique , 440 
+chirac , france , 406 
+gouvernement , national , 280 
+gouvernement , droit , 317 
+gouvernement , président , 342 
+gouvernement , foi , 256 
+gouvernement , monde , 257 
+gouvernement , politique , 445 
+gouvernement , france , 296 
+campagne , candidat , 421 
+campagne , national , 252 
+campagne , droit , 289 
+campagne , président , 315 
+campagne , foi , 290 
+campagne , monde , 257 
+campagne , politique , 442 
+campagne , france , 380 
+européen , national , 264 
+européen , droit , 267 
+européen , président , 283 
+européen , politique , 354 
+européen , france , 382 
+américain , président , 284 
+américain , monde , 270 
+société , foi , 259 
+société , monde , 270 
+société , politique , 332 
+société , france , 355 
+candidat , national , 280 
+candidat , droit , 321 
+candidat , président , 329 
+candidat , foi , 277 
+candidat , monde , 268 
+candidat , politique , 449 
+candidat , france , 412 
+question , temps , 281 
+question , droit , 291 
+question , président , 292 
+question , foi , 330 
+question , monde , 318 
+question , politique , 394 
+question , france , 366 
+vie , temps , 297 
+vie , droit , 259 
+vie , foi , 319 
+vie , monde , 318 
+vie , politique , 351 
+vie , france , 342 
+temps , national , 274 
+temps , droit , 312 
+temps , président , 291 
+temps , foi , 406 
+temps , monde , 388 
+temps , politique , 388 
+temps , france , 428 
+national , droit , 349 
+national , président , 389 
+national , foi , 333 
+national , monde , 315 
+national , politique , 462 
+national , france , 456 
+droit , président , 398 
+droit , foi , 386 
+droit , monde , 379 
+droit , politique , 543 
+droit , france , 487 
+président , foi , 380 
+président , monde , 397 
+président , politique , 534 
+président , france , 464 
+foi , monde , 458 
+foi , politique , 472 
+foi , france , 554 
+monde , politique , 485 
+monde , france , 566 
+politique , france , 653 
+
+
+3-item-set : 
+israël , israélien , palestinien , 261 
+jospin , chirac , politique , 303 
+jospin , chirac , campagne , 275 
+jospin , chirac , france , 284 
+jospin , chirac , candidat , 330 
+jospin , campagne , candidat , 269 
+jospin , candidat , politique , 258 
+jospin , candidat , france , 255 
+jospin , politique , france , 271 
+gauche , chirac , politique , 257 
+gauche , droit , politique , 263 
+gauche , politique , france , 264 
+chirac , campagne , politique , 255 
+chirac , campagne , candidat , 274 
+chirac , candidat , politique , 284 
+chirac , candidat , france , 262 
+chirac , politique , france , 297 
+campagne , candidat , politique , 283 
+campagne , politique , france , 263 
+candidat , politique , france , 277 
+national , politique , france , 253 
+droit , politique , france , 309 
+président , politique , france , 266 
+foi , monde , france , 255 
+foi , politique , france , 280 
+monde , politique , france , 290 
+
+Association rules : 
+[front_national] : 350 ==> le_pen : 300 <conf : 0.8571428571428571>
+[palestinien] : 472 ==> israélien : 380 <conf : 0.8050847457627118>
+[israël] : 356 ==> israélien : 275 <conf : 0.7724719101123596>
+[israël] : 356 ==> palestinien : 303 <conf : 0.851123595505618>
+[israélien] : 433 ==> palestinien : 380 <conf : 0.8775981524249422>
+[israël, israélien] : 275 ==> palestinien : 261 <conf : 0.9490909090909091>
+[israël, palestinien] : 303 ==> israélien : 261 <conf : 0.8613861386138614>
+[jospin, campagne] : 341 ==> chirac : 275 <conf : 0.8064516129032258>
+[jospin, campagne] : 341 ==> candidat : 269 <conf : 0.7888563049853372>
+[jospin, candidat] : 406 ==> chirac : 330 <conf : 0.812807881773399>
+[jospin, politique] : 384 ==> chirac : 303 <conf : 0.7890625>
+[jospin, france] : 378 ==> chirac : 284 <conf : 0.7513227513227513>
+[gauche, chirac] : 331 ==> politique : 257 <conf : 0.7764350453172205>
+[chirac, candidat] : 425 ==> jospin : 330 <conf : 0.7764705882352941>
