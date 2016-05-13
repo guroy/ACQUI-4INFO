@@ -24,10 +24,6 @@ public class Item {
         nbOccur = first;
     }
 
-    public void addNbOccurs(int sup){
-        nbOccur+=sup;
-    }
-
     public void addStringToItem(String string){
         itemSet.add(string);
     }

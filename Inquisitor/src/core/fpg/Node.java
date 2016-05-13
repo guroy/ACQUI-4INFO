@@ -46,13 +46,13 @@ public class Node {
     }
 
 
-    // Method to check if contains direct suns
-    public boolean containDirectSon(String Name){
+    // Method to check if this node contains direct suns with the value name
+    public boolean containDirectSon(String name){
         boolean find = false;
         int counter = 0;
 
         while(!find && suns.size() > counter){
-            find = suns.get(counter).getValue().getLeft().equals(Name);
+            find = suns.get(counter).getValue().getLeft().equals(name);
             counter ++;
         }
 
@@ -72,6 +72,7 @@ public class Node {
         return suns.get(counter - 1);
     }
 
+    // return the set off all string ascendant nodes in the tree of this node
     public void getAllAscendant(Set<String> parentWords){
         if(!father.getValue().getLeft().equals("root")){
             parentWords.add(father.getValue().getLeft());

@@ -29,8 +29,4 @@ public class KItemSetFPG {
     public void addItem(Item item){
         kItemSet.add(item);
     }
-
-    public void incrementItem(Item item){
-        kItemSet.indexOf(item);
-    }
 }

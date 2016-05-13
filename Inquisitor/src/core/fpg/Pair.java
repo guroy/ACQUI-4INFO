@@ -21,10 +21,6 @@ public class Pair<L,R> {
         this.right = right;
     }
 
-    public void setLeft(L left) {
-        this.left = left;
-    }
-
     @Override
     public int hashCode() { return left.hashCode() ^ right.hashCode(); }
 
